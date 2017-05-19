@@ -43,4 +43,3 @@
     (let [result (concat (take 11613 (repeat 25)) [10 5 1 1])]
       (should= result
                (get-change 290342)))))
-

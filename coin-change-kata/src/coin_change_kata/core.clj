@@ -1,13 +1,12 @@
 (ns coin-change-kata.core)
 
-(defn add-coins [cents coins]
-  (loop [acc []
-         cents cents
-         coins coins]
-    (let [coin (first coins)]
-      (cond (empty? coins) acc
-            (<= 0 (- cents coin)) (recur (conj acc coin) (- cents coin) coins)
-            :else (recur acc cents (rest coins))))))
+(defn add-coin [coin-map coin]
+  (let [cents (:cents coin-map)
+        change (:change coin-map)]
+    (if (< (- cents coin) 0)
+      coin-map
+      (recur {:cents (- cents coin) :change (conj change coin)} coin))))
 
-(defn get-change [n-cents]
-  (add-coins n-cents [25 10 5 1]))
+(defn get-change [cents]
+  (:change
+    (reduce add-coin {:cents cents, :change []} [25 10 5 1])))
